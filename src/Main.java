@@ -1,6 +1,7 @@
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
+import java.util.ArrayList;
 
 public class Main {
     public static void main(String[] args) {
@@ -10,6 +11,9 @@ public class Main {
             int line = 1;
             String name = "";
             int money = 0;
+            String itemName = "";
+            int value = 0;
+            ArrayList<Item> save = new ArrayList<Item>();
             while (s.hasNextLine()) {
                 String data = s.nextLine();
                 if (line == 1) {
@@ -18,28 +22,24 @@ public class Main {
                 if (line == 2) {
                     money = Integer.parseInt(data);
                 }
+                if (line > 2 && line % 2 == 1) {
+                    itemName = data;
+                }
+                if (line > 2 && line % 2 == 0) {
+                    value = Integer.parseInt(data);
+                    Item temp = new Item(itemName, value);
+                    save.add(temp);
+                }
                 line++;
             }
             Player p = new Player(name, money);
-            System.out.println("Name: " + name + " Money: " + money);
-            boolean stop = false;
-
-            while (stop != true) {
-                System.out.print("Play? ");
-                Scanner in = new Scanner(System.in);
-                String ans = in.nextLine();
-                if (ans.equals("yes")) {
-                    p.play();
-                    p.removeMoney(25);
-                }
-                if (ans.equals("add")) {
-                    p.setMoney(250);
-                }
-                if (ans.equals("stop")) {
-                    stop = true;
-                }
-                System.out.println("Money: " + p.getMoney());
+            for (Item item : save) {
+                p.addItem(item);
             }
+            System.out.println("Name: " + name + " Money: " + money);
+
+            Runner runner = new Runner();
+            runner.run(p);
             p.save();
 
 

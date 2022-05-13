@@ -2,6 +2,7 @@ import java.util.ArrayList;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.File;
+import java.util.Scanner;
 
 public class Player {
     private ArrayList<Item> inventory = new ArrayList<Item>();
@@ -24,15 +25,20 @@ public class Player {
     public void setName(String name) {
         this.name = name;
     }
+
     public int getMoney() {
         return money;
     }
 
-    public void removeMoney(int m) { money -= m; }
+    public void removeMoney(int m) {
+        money -= m;
+    }
 
     public void setMoney(int m) {
         money = m;
     }
+
+    public void addMoney(int m) { money += m; }
 
     public void addItem(Item i) { inventory.add(i); }
 
@@ -49,10 +55,48 @@ public class Player {
     }
 
     public void play() {
+
         int rng = (int) (Math.random() * 100) + 1;
-        System.out.println(rng);
         Item item = new Item(rng);
+        System.out.println("You got " + item.getItemName() + "! (" + item.getRarity() + "%)");
         addItem(item);
+    }
+
+    public void playTen() {
+        for (int i = 0; i < 10; i++) {
+            play();
+        }
+    }
+
+    public void showInventory() {
+        int count = 1;
+        for (Item item : inventory) {
+           System.out.println("Item #" + count + ":");
+           System.out.println("Name: " + item.getItemName());
+           System.out.println("Value: " + item.getValue());
+           System.out.println("----");
+           count++;
+       }
+    }
+
+    public void sellItem() {
+        showInventory();
+        System.out.println("Which item (#) do you want to sell?");
+        Scanner in = new Scanner(System.in);
+        int ans = in.nextInt();
+        ans -= 1;
+        try {
+            addMoney(inventory.get(ans).getValue());
+            inventory.remove(ans);
+        }
+        catch (Exception e) {
+            System.out.println("Sorry! That item does not exist in your inventory!");
+            sellItem();
+        }
+    }
+
+    public void sellAll() {
+
     }
 
     public void save() {

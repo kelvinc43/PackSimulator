@@ -3,9 +3,10 @@ public class Item {
 
     private String itemName;
     private int value;
-    private int[] rarityList   = {1, 3, 6, 10, 100};
+    private int[] rarityList   = {1, 3, 6, 30, 100};
+    private double rarity;
     private String[] itemNames = {"test1", "test2", "test3", "test4", "test5"};
-    private int[] valueList    = {100, 50, 30, 20, 10};
+    private int[] valueList    = {1000, 250, 100, 40, 20};
 
     public Item(int rng) {
         int index = -1;
@@ -18,6 +19,9 @@ public class Item {
 
         this.itemName = itemNames[index];
         this.value = valueList[index];
+        if (index != 1) {
+            rarity = rarityList[index] - rarityList[index - 1];
+        } else rarity = rarityList[index];
     }
 
     public Item(String name, int value) {
@@ -29,6 +33,9 @@ public class Item {
         return itemName;
     }
 
+    public double getRarity() {
+        return rarity;
+    }
     public int getValue() {
         return value;
     }
