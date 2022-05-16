@@ -2,12 +2,14 @@ import java.util.ArrayList;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.File;
+import java.util.Locale;
 import java.util.Scanner;
 
 public class Player {
     private ArrayList<Item> inventory = new ArrayList<Item>();
     private String name;
     private int money;
+    private int openCount;
 
     public Player() {
         name = null;
@@ -31,7 +33,7 @@ public class Player {
     }
 
     public void removeMoney(int m) {
-        money -= m;
+            money -= m;
     }
 
     public void setMoney(int m) {
@@ -42,26 +44,42 @@ public class Player {
 
     public void addItem(Item i) { inventory.add(i); }
 
-    public void removeItem(Item i) {
-        int index = 0;
-        for (Item item : inventory) {
-            index++;
-            if (item.getItemName().equals(i.getItemName())) {
-                inventory.remove(i);
-                return;
-            }
-        }
-        System.out.println("Failed");
-    }
+    public int getOpenCount() { return openCount; }
 
     public void play() {
 
-        int rng = (int) (Math.random() * 100) + 1;
+        int rng = (int) (Math.random() * 1000) + 1;
         Item item = new Item(rng);
-        System.out.println("You got " + item.getItemName() + "! (" + item.getRarity() + "%)");
+        if (money - item.getItemCost() > 0) {
+            removeMoney(item.getItemCost());
+            System.out.println("You got " + item.getItemName() + "! (" + (item.getRarity() / 10) + "%)");
+            if (item.getItemName().equals("Secret")) { System.out.print("!!!!!!!!!!!!"); }
+            openCount++;
+            addItem(item);
+        }
+        else {
+            System.out.println("Sorry! You do not have enough money to buy this! You can either sell your items or restart");
+        }
+    }
+
+    public void rig() {
+        Item item = new Item(1);
+        System.out.println(item.getItemName() + " added!");
         addItem(item);
     }
 
+    public void playSecret() {
+        int rng = (int) (Math.random() * 1000) + 1;
+        while (rng != 1) {
+            rng = (int) (Math.random() * 1000) + 1;
+            Item item = new Item(rng);
+            System.out.print("You got " + item.getItemName() + "! (" + (item.getRarity() / 10) + "%)");
+            if (item.getItemName().equals("Secret")) { System.out.print("!!!!!!!!!!!!"); }
+            System.out.println();
+            openCount++;
+            addItem(item);
+        }
+    }
     public void playTen() {
         for (int i = 0; i < 10; i++) {
             play();
@@ -83,11 +101,14 @@ public class Player {
         showInventory();
         System.out.println("Which item (#) do you want to sell?");
         Scanner in = new Scanner(System.in);
-        int ans = in.nextInt();
-        ans -= 1;
+        String ans = in.nextLine();
+        if (ans.equals("Stop") || ans.equals("stop")) {
+            return;
+        }
         try {
-            addMoney(inventory.get(ans).getValue());
-            inventory.remove(ans);
+            int index = Integer.parseInt(ans) - 1;
+            addMoney(inventory.get(index).getValue());
+            inventory.remove(index);
         }
         catch (Exception e) {
             System.out.println("Sorry! That item does not exist in your inventory!");
@@ -96,7 +117,18 @@ public class Player {
     }
 
     public void sellAll() {
-
+        System.out.println("Are you sure?");
+        Scanner in = new Scanner(System.in);
+        String ans = in.nextLine();
+        ans = ans.toLowerCase();
+        if (ans.equals("yes")) {
+            for (int i = 0; i < inventory.size(); i++) {
+                addMoney(inventory.get(i).getValue());
+                inventory.remove(i);
+                i--;
+            }
+        }
+        else return;
     }
 
     public void save() {

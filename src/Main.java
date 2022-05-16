@@ -36,7 +36,7 @@ public class Main {
             for (Item item : save) {
                 p.addItem(item);
             }
-            System.out.println("Name: " + name + " Money: " + money);
+            System.out.println("Name: " + name + " || Money: " + money + " || Open Count: ");
 
             Runner runner = new Runner();
             runner.run(p);
