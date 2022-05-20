@@ -2,27 +2,70 @@ import java.util.Arrays;
 public class Item {
 
     private String itemName;
-    private int itemCost = 25;
+    private int itemCost;
     private int value;
     private double rarity;
 
-    private int[] rarityList   = {1,         30,      130,      280,      580,     1000}; // 0.1%, 3%, 10%, 15%, 30%, 42%
+    //Item 1
+    private int[] rarityList   = {1,         30,       150,      350,      650,      1000}; // 0.1%, 3%, 12%, 20%, 30%, 35%
     private String[] itemNames = {"Secret", "test-1", "test-2", "test-3", "test-4", "test-5"};
-    private int[] valueList    = {1000000,   1000,    250,     100,     40,      20};
+    private int[] valueList    = {10000,     200,      90,       45,       25,       15};
 
-    public Item(int rng) {
-        int index = -1;
-        for (int i = 0; i < itemNames.length; i++) {
-            if (rng <= rarityList[i]) {
-                index = i;
-                break;
+    private int[] rarityList2   = {1,         334,    1000}; // 0.1%, 33%, 66%
+    private String[] itemNames2 = {"Secret", "left", "right"};
+    private int[] valueList2    = {66666,     425,    75};
+
+    private int[] rarityList3 = {10, 40, 1000};
+    private String[] itemNames3 = {"Win", "???", "Scammed"};
+    private int[] valueList3 = {75000, 10000, 500};
+
+    public Item(int rng, int number) {
+        if (number == 1) {
+            int index = -1;
+            for (int i = 0; i < itemNames.length; i++) {
+                if (rng <= rarityList[i]) {
+                    index = i;
+                    break;
+                }
             }
+            this.itemName = itemNames[index];
+            this.value = valueList[index];
+            itemCost = 25;
+            if (index >= 1) {
+                rarity = rarityList[index] - rarityList[index - 1];
+            } else rarity = rarityList[index];
         }
-        this.itemName = itemNames[index];
-        this.value = valueList[index];
-        if (index > 1) {
-            rarity = rarityList[index] - rarityList[index - 1];
-        } else rarity = rarityList[index];
+
+        if (number == 2) {
+            int index = -1;
+            for (int i = 0; i < itemNames2.length; i++) {
+                if (rng <= rarityList2[i]) {
+                    index = i;
+                    break;
+                }
+            }
+            this.itemName = itemNames2[index];
+            this.value = valueList2[index];
+            itemCost = 260;
+            if (index >= 1) {
+                rarity = rarityList2[index] - rarityList2[index - 1];
+            } else rarity = rarityList2[index];
+        }
+        if (number == 3) {
+            int index = -1;
+            for (int i = 0; i < itemNames3.length; i++) {
+                if (rng <= rarityList3[i]) {
+                    index = i;
+                    break;
+                }
+            }
+            this.itemName = itemNames3[index];
+            this.value = valueList3[index];
+            itemCost = 1750;
+            if (index >= 1) {
+                rarity = rarityList3[index] - rarityList3[index - 1];
+            } else rarity = rarityList3[index];
+        }
     }
 
     public Item(String name, int value) {
@@ -46,3 +89,4 @@ public class Item {
         return rarity;
     }
 }
+

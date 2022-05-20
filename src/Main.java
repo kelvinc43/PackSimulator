@@ -10,7 +10,9 @@ public class Main {
             Scanner s = new Scanner(f);
             int line = 1;
             String name = "";
-            int money = 0;
+            int openCount = 0;
+            double money = 0;
+            int prestige = 0;
             String itemName = "";
             int value = 0;
             ArrayList<Item> save = new ArrayList<Item>();
@@ -20,28 +22,34 @@ public class Main {
                     name = data;
                 }
                 if (line == 2) {
-                    money = Integer.parseInt(data);
+                    money = Double.parseDouble(data);
                 }
-                if (line > 2 && line % 2 == 1) {
+                if (line == 3) {
+                    openCount = Integer.parseInt(data);
+                }
+                if (line == 4) {
+                    prestige = Integer.parseInt(data);
+                }
+                if (line > 4 && line % 2 == 1) {
                     itemName = data;
                 }
-                if (line > 2 && line % 2 == 0) {
+                if (line > 4 && line % 2 == 0) {
                     value = Integer.parseInt(data);
                     Item temp = new Item(itemName, value);
                     save.add(temp);
                 }
                 line++;
             }
-            Player p = new Player(name, money);
+            Player p = new Player(name, money, prestige);
+            p.setOpenCount(openCount);
             for (Item item : save) {
                 p.addItem(item);
             }
-            System.out.println("Name: " + name + " || Money: " + money + " || Open Count: ");
+            System.out.println("Name: " + name + " || Money: " + money + " || Open Count: " + p.getOpenCount() + " || Prestige: " + p.getPrestige());
 
             Runner runner = new Runner();
             runner.run(p);
             p.save();
-
 
         }
         catch (FileNotFoundException e) {
@@ -50,7 +58,9 @@ public class Main {
             Scanner in = new Scanner(System.in);
             String name = in.nextLine();
             p.setName(name);
-            p.setMoney(100);
+            p.setOpenCount(0);
+            Runner runner = new Runner();
+            runner.run(p);
             p.save();
         }
     }

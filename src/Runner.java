@@ -10,13 +10,46 @@ public class Runner {
             String ans = in.nextLine();
             System.out.println();
             if (ans.equals("yes")) {
-                p.play();
+                try {
+                    System.out.print("Which pack? ");
+                    Scanner input = new Scanner(System.in);
+                    int pack = input.nextInt();
+                    p.play(pack);
+                }
+                catch (Exception e) {
+                    System.out.println("Sorry that command does not exist!");
+                }
+            }
+            if (ans.equals("1")) {
+                p.play(1);
+            }
+            if (ans.equals("all")) {
+                try {
+                    System.out.print("Which pack? ");
+                    Scanner input = new Scanner(System.in);
+                    int pack = input.nextInt();
+                    p.spendAll(pack);
+                }
+                catch (Exception e) {
+                    System.out.println("Sorry that command does not exist!");
+                }
             }
             if (ans.equals("yes10")) {
-                p.playTen();
+                try {
+                    System.out.print("Which pack? ");
+                    Scanner input = new Scanner(System.in);
+                    int pack = input.nextInt();
+                    p.playTen(pack);
+                }
+                catch (Exception e) {
+                    System.out.println("Sorry that command does not exist!");
+                }
+            }
+            if (ans.equals("10")) {
+                p.playTen(1);
             }
             if (ans.equals("add")) {
-                p.addMoney(2500);
+                p.addMoney(999999);
             }
             if (ans.equals("inv")) {
                 p.showInventory();
@@ -27,14 +60,25 @@ public class Runner {
             if (ans.equals("sellall")) {
                 p.sellAll();
             }
-            if (ans.equals("rig")) {
-                p.rig();
-            }
-            if (ans.equals("yessecret")) {
-                p.playSecret();
+            System.out.print(" ~~~~~~~~\n");
+            if (ans.equals("prestige")) {
+                p.prestige();
             }
 
-            System.out.println(" ~~~~~~~~\nMoney: " + p.getMoney() + "\nOpen Count " + p.getOpenCount() + "\n ~~~~~~~~~");
+            if (ans.equals("rig")) {
+                System.out.print("\nPack? ");
+                Scanner input = new Scanner(System.in);
+                int pack = input.nextInt();
+                p.rig(pack);
+            }
+            if (ans.equals("yessecret")) {
+                System.out.print("\nPack? ");
+                Scanner input = new Scanner(System.in);
+                int pack = input.nextInt();
+                p.playSecret(pack);
+            }
+
+            System.out.println("Money: " + p.getMoney() + "\nOpen Count: " + p.getOpenCount() + "\n ~~~~~~~~~");
 
             if (ans.equals("stop")) {
                 stop = true;

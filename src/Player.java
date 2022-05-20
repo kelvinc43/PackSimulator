@@ -1,3 +1,4 @@
+import java.awt.desktop.SystemSleepEvent;
 import java.util.ArrayList;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -8,16 +9,21 @@ import java.util.Scanner;
 public class Player {
     private ArrayList<Item> inventory = new ArrayList<Item>();
     private String name;
-    private int money;
+    private double money;
     private int openCount;
+    private int prestige;
+    private final int PRESTIGE_COST = 2500;
+    private final double START_MONEY = 100;
 
     public Player() {
         name = null;
-        money = 0;
+        money = START_MONEY;
+        prestige = 0;
     }
-    public Player(String name, int money) {
+    public Player(String name, double money, int prestige) {
         this.name = name;
         this.money = money;
+        this.prestige = prestige;
     }
 
     public String getName() {
@@ -28,32 +34,37 @@ public class Player {
         this.name = name;
     }
 
-    public int getMoney() {
+    public double getMoney() {
         return money;
     }
 
-    public void removeMoney(int m) {
+    public void removeMoney(double m) {
             money -= m;
     }
 
-    public void setMoney(int m) {
+    public void setMoney(double m) {
         money = m;
     }
 
-    public void addMoney(int m) { money += m; }
+    public void addMoney(double m) { money += m; }
 
     public void addItem(Item i) { inventory.add(i); }
 
     public int getOpenCount() { return openCount; }
 
-    public void play() {
+    public void setOpenCount(int c) { openCount = c; }
 
+    public int getPrestige() { return prestige; }
+
+    public void play(int ans) {
         int rng = (int) (Math.random() * 1000) + 1;
-        Item item = new Item(rng);
-        if (money - item.getItemCost() > 0) {
-            removeMoney(item.getItemCost());
-            System.out.println("You got " + item.getItemName() + "! (" + (item.getRarity() / 10) + "%)");
+        Item item = new Item(rng, ans);
+        int itemCost = item.getItemCost() * (prestige + 1);
+        if (money - itemCost >= 0) {
+            removeMoney(itemCost);
+            System.out.print("You got " + item.getItemName() + "! (" + (item.getRarity() / 10) + "%)");
             if (item.getItemName().equals("Secret")) { System.out.print("!!!!!!!!!!!!"); }
+            System.out.println();
             openCount++;
             addItem(item);
         }
@@ -62,17 +73,26 @@ public class Player {
         }
     }
 
-    public void rig() {
-        Item item = new Item(1);
+    public void spendAll(int ans) {
+        int loops = 0;
+        Item item = new Item(1, ans);
+        int itemCost = item.getItemCost() * (prestige + 1);
+        while (money - itemCost >= 0 && loops <= 50000) {
+            play(ans);
+            loops++;
+        }
+    }
+    public void rig(int number) {
+        Item item = new Item(1, number);
         System.out.println(item.getItemName() + " added!");
         addItem(item);
     }
 
-    public void playSecret() {
+    public void playSecret(int number) {
         int rng = (int) (Math.random() * 1000) + 1;
         while (rng != 1) {
             rng = (int) (Math.random() * 1000) + 1;
-            Item item = new Item(rng);
+            Item item = new Item(rng, number);
             System.out.print("You got " + item.getItemName() + "! (" + (item.getRarity() / 10) + "%)");
             if (item.getItemName().equals("Secret")) { System.out.print("!!!!!!!!!!!!"); }
             System.out.println();
@@ -80,9 +100,9 @@ public class Player {
             addItem(item);
         }
     }
-    public void playTen() {
+    public void playTen(int ans) {
         for (int i = 0; i < 10; i++) {
-            play();
+            play(ans);
         }
     }
 
@@ -91,7 +111,7 @@ public class Player {
         for (Item item : inventory) {
            System.out.println("Item #" + count + ":");
            System.out.println("Name: " + item.getItemName());
-           System.out.println("Value: " + item.getValue());
+           System.out.println("Value: " + (item.getValue() * Math.pow(1.1, prestige)));
            System.out.println("----");
            count++;
        }
@@ -107,7 +127,7 @@ public class Player {
         }
         try {
             int index = Integer.parseInt(ans) - 1;
-            addMoney(inventory.get(index).getValue());
+            addMoney(inventory.get(index).getValue() * Math.pow(1.1, prestige));
             inventory.remove(index);
         }
         catch (Exception e) {
@@ -120,16 +140,43 @@ public class Player {
         System.out.println("Are you sure?");
         Scanner in = new Scanner(System.in);
         String ans = in.nextLine();
-        ans = ans.toLowerCase();
-        if (ans.equals("yes")) {
+        try {
+            ans = ans.toLowerCase();
+            if (ans.equals("yes")) {
+                for (int i = 0; i < inventory.size(); i++) {
+                    addMoney(inventory.get(i).getValue() * Math.pow(1.1, prestige));
+                    inventory.remove(i);
+                    i--;
+                }
+            }
+        }
+        catch (Exception e) {
+            System.out.println("Invalid response.");
+        }
+    }
+
+    public void prestige() {
+        double prestigeCost = (PRESTIGE_COST * Math.pow(1.2, prestige));
+        System.out.println("Cost to prestige: " + prestigeCost + ", Are you sure you want to proceed?");
+        Scanner in = new Scanner(System.in);
+        String ans = in.nextLine();
+        if (ans.equals("yes") && money >= prestigeCost) {
+            prestige++;
+            money = START_MONEY * (prestige + 1);
             for (int i = 0; i < inventory.size(); i++) {
-                addMoney(inventory.get(i).getValue());
                 inventory.remove(i);
                 i--;
             }
+            System.out.println("\nPrestige: " + prestige);
         }
-        else return;
+        else System.out.println("Error");
     }
+
+    public void restart() {
+        File f = new File("src/player.data");
+        f.delete();
+    }
+
 
     public void save() {
         try {
@@ -137,7 +184,9 @@ public class Player {
             f.createNewFile(); // this method will create the file if it does not exist, if it does exist, it does nothing
             FileWriter fw = new FileWriter("src/player.data");
             fw.write(name + "\n");
-            fw.write(Integer.toString(money) + "\n");
+            fw.write(Double.toString(money) + "\n");
+            fw.write(Integer.toString(getOpenCount()) + "\n");
+            fw.write(Integer.toString(getPrestige()) + "\n");
             if (inventory != null) {
                 for (int i = 0; i < inventory.size(); i++) {
                     fw.write(inventory.get(i).getItemName() + "\n");
