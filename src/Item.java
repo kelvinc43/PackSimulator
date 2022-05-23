@@ -8,11 +8,11 @@ public class Item {
 
     //Item 1
     private int[] rarityList   = {1,         30,       150,      350,      650,      1000}; // 0.1%, 3%, 12%, 20%, 30%, 35%
-    private String[] itemNames = {"Secret", "test-1", "test-2", "test-3", "test-4", "test-5"};
+    private String[] itemNames = {"Secret1", "test-1", "test-2", "test-3", "test-4", "test-5"};
     private int[] valueList    = {10000,     200,      90,       45,       25,       15};
 
     private int[] rarityList2   = {1,         334,    1000}; // 0.1%, 33%, 66%
-    private String[] itemNames2 = {"Secret", "left", "right"};
+    private String[] itemNames2 = {"Secret2", "left", "right"};
     private int[] valueList2    = {66666,     425,    75};
 
     private int[] rarityList3 = {10, 40, 1000};

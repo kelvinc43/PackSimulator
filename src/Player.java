@@ -19,15 +19,12 @@ public class Player {
         name = null;
         money = START_MONEY;
         prestige = 0;
+        openCount = 0;
     }
     public Player(String name, double money, int prestige) {
         this.name = name;
         this.money = money;
         this.prestige = prestige;
-    }
-
-    public String getName() {
-        return name;
     }
 
     public void setName(String name) {
@@ -40,10 +37,6 @@ public class Player {
 
     public void removeMoney(double m) {
             money -= m;
-    }
-
-    public void setMoney(double m) {
-        money = m;
     }
 
     public void addMoney(double m) { money += m; }
@@ -63,7 +56,7 @@ public class Player {
         if (money - itemCost >= 0) {
             removeMoney(itemCost);
             System.out.print("You got " + item.getItemName() + "! (" + (item.getRarity() / 10) + "%)");
-            if (item.getItemName().equals("Secret")) { System.out.print("!!!!!!!!!!!!"); }
+            if (rng == 1) { System.out.print("!!!!!!!!!!!!!!!!!!"); }
             System.out.println();
             openCount++;
             addItem(item);
@@ -94,7 +87,7 @@ public class Player {
             rng = (int) (Math.random() * 1000) + 1;
             Item item = new Item(rng, number);
             System.out.print("You got " + item.getItemName() + "! (" + (item.getRarity() / 10) + "%)");
-            if (item.getItemName().equals("Secret")) { System.out.print("!!!!!!!!!!!!"); }
+            if (rng == 1) { System.out.print("!!!!!!!!!!!!"); }
             System.out.println();
             openCount++;
             addItem(item);
@@ -107,6 +100,7 @@ public class Player {
     }
 
     public void showInventory() {
+        ArrayList<Item> tempInv = new ArrayList<>(inventory);
         int count = 1;
         for (Item item : inventory) {
            System.out.println("Item #" + count + ":");
@@ -115,6 +109,20 @@ public class Player {
            System.out.println("----");
            count++;
        }
+        for (int a = 0; a < tempInv.size(); a++) {
+            int amount = 0;
+            String name = tempInv.get(a).getItemName();
+            for (int i = 0; i < tempInv.size(); i++)
+            {
+                if (tempInv.get(i).getItemName().equals(name)) {
+                    amount++;
+                    tempInv.remove(i);
+                    i--;
+                }
+            }
+            if (amount > 0) a--;
+            System.out.println(name + ": x" + amount);
+        }
     }
 
     public void sellItem() {
@@ -201,3 +209,4 @@ public class Player {
         }
     }
 }
+
