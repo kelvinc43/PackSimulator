@@ -50,7 +50,6 @@ public class Main {
             Runner runner = new Runner();
             runner.run(p);
             p.save();
-
         }
         catch (FileNotFoundException e) {
             Player p = new Player();

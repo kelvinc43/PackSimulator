@@ -28,8 +28,8 @@ public class Item {
                     break;
                 }
             }
-            this.itemName = itemNames[index];
-            this.value = valueList[index];
+            itemName = itemNames[index];
+            value = valueList[index];
             itemCost = 25;
             if (index >= 1) {
                 rarity = rarityList[index] - rarityList[index - 1];
@@ -44,8 +44,8 @@ public class Item {
                     break;
                 }
             }
-            this.itemName = itemNames2[index];
-            this.value = valueList2[index];
+            itemName = itemNames2[index];
+            value = valueList2[index];
             itemCost = 260;
             if (index >= 1) {
                 rarity = rarityList2[index] - rarityList2[index - 1];
@@ -59,8 +59,8 @@ public class Item {
                     break;
                 }
             }
-            this.itemName = itemNames3[index];
-            this.value = valueList3[index];
+            itemName = itemNames3[index];
+            value = valueList3[index];
             itemCost = 1750;
             if (index >= 1) {
                 rarity = rarityList3[index] - rarityList3[index - 1];
