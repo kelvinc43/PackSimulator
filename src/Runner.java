@@ -2,8 +2,15 @@ import java.util.Scanner;
 import java.text.NumberFormat;
 
 public class Runner {
+    public static void main(String[] args) {
+        DataHandler data = new DataHandler();
+        data.dataHandle();
+        Player player = data.getPlayer();
 
-    public void run(Player player) {
+        NumberFormat currency = NumberFormat.getCurrencyInstance();
+        String myCurrency = currency.format(player.getMoney());
+        System.out.println("User: " + player.getName() + " || Money: " + myCurrency + " || Open Count: " + player.getOpenCount() + " || Prestige: " + player.getPrestige());
+
         boolean stop = false;
         while (stop != true) {
             System.out.print("\nPlay? ");
@@ -12,7 +19,6 @@ public class Runner {
             System.out.println();
             if (ans.equals("yes")) {
                 try {
-
                     System.out.print("Which pack? ");
                     Scanner input = new Scanner(System.in);
                     int pack = input.nextInt();
@@ -96,9 +102,9 @@ public class Runner {
                 player.playSecret(pack);
             }
 
-            NumberFormat currency = NumberFormat.getCurrencyInstance();
-            String myCurrency = currency.format(player.getMoney());
-            System.out.println("Money: " + myCurrency + "\nOpen Count: " + player.getOpenCount() + "\n ~~~~~~~~~");
+            NumberFormat currencyAfter = NumberFormat.getCurrencyInstance();
+            String myCurrencyAfter = currencyAfter.format(player.getMoney());
+            System.out.println("Money: " + myCurrencyAfter + "\nOpen Count: " + player.getOpenCount() + "\n ~~~~~~~~~");
             player.save();
             if (ans.equals("stop")) {
                 stop = true;

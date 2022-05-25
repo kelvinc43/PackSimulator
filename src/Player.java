@@ -8,6 +8,7 @@ import java.util.Scanner;
 
 public class Player {
     private ArrayList<Item> inventory = new ArrayList<Item>();
+    private Item item;
     private String name;
     private double money;
     private int openCount;
@@ -41,6 +42,8 @@ public class Player {
 
     public void addMoney(double m) { money += m; }
 
+    public String getName() { return name; }
+
     public void addItem(Item i) { inventory.add(i); }
 
     public int getOpenCount() { return openCount; }
@@ -49,9 +52,8 @@ public class Player {
 
     public int getPrestige() { return prestige; }
 
-    public void play(int ans) {
-        int rng = (int) (Math.random() * 1000) + 1;
-        Item item = new Item(rng, ans);
+    public void play(int pack) {
+        Item item = new Item(pack);
         int itemCost = item.getItemCost() * (prestige + 1);
         if (money - itemCost >= 0) {
             removeMoney(itemCost);
@@ -65,27 +67,21 @@ public class Player {
             System.out.println("Sorry! You do not have enough money to buy this! You can either sell your items or restart");
         }
     }
-
-    public void spendAll(int ans) {
+    public void spendAll(int pack) {
         int loops = 0;
-        Item item = new Item(1, ans);
+        Item item = new Item(pack);
         int itemCost = item.getItemCost() * (prestige + 1);
         while (money - itemCost >= 0 && loops <= 50000) {
-            play(ans);
+            play(pack);
             loops++;
         }
     }
-    public void rig(int number) {
-        Item item = new Item(1, number);
-        System.out.println(item.getItemName() + " added!");
-        addItem(item);
-    }
 
-    public void playSecret(int number) {
+    public void playSecret(int pack) {
         int rng = (int) (Math.random() * 1000) + 1;
         while (rng != 1) {
             rng = (int) (Math.random() * 1000) + 1;
-            Item item = new Item(rng, number);
+            Item item = new Item(pack);
             System.out.print("You got " + item.getItemName() + "! (" + (item.getRarity() / 10) + "%)");
             if (rng == 1) { System.out.print("!!!!!!!!!!!!"); }
             System.out.println();
@@ -98,7 +94,6 @@ public class Player {
             play(ans);
         }
     }
-
     public void showInventory() {
         ArrayList<Item> tempInv = new ArrayList<>(inventory);
         int count = 1;
@@ -125,7 +120,6 @@ public class Player {
             System.out.println(name + ": x" + amount);
         }
     }
-
     public void sellItem() {
         showInventory();
         System.out.println("Which item (#) do you want to sell?");
@@ -176,6 +170,7 @@ public class Player {
                 inventory.remove(i);
                 i--;
             }
+            System.out.print(" ~~~~~~~~\n");
             System.out.println("\nPrestige: " + prestige);
         }
         else System.out.println("Error");
@@ -190,7 +185,6 @@ public class Player {
             i--;
         }
     }
-
 
     public void save() {
         try {
@@ -215,4 +209,3 @@ public class Player {
         }
     }
 }
-

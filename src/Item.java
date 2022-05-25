@@ -1,4 +1,3 @@
-import java.util.Arrays;
 public class Item {
 
     private String itemName;
@@ -18,10 +17,8 @@ public class Item {
     private String[] itemNames3 = {"Win", "???", "Scammed"};
     private int[] valueList3 = {75000, 10000, 500};
 
-    public Item() {
-
-    }
-    public Item(int rng, int number) {
+    public Item(int number) {
+        int rng = (int) (Math.random() * 1000) + 1;
         if (number == 1) {
             int index = -1;
             for (int i = 0; i < itemNames.length; i++) {
@@ -37,7 +34,6 @@ public class Item {
                 rarity = rarityList[index] - rarityList[index - 1];
             } else rarity = rarityList[index];
         }
-
         if (number == 2) {
             int index = -1;
             for (int i = 0; i < itemNames2.length; i++) {

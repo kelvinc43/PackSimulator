@@ -1,11 +1,13 @@
 import java.util.ArrayList;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.text.NumberFormat;
 import java.util.Scanner;
 
-public class Main {
-    public static void main(String[] args) {
+public class DataHandler {
+
+    private Player player;
+
+    public void dataHandle() {
         try {
             File f = new File("src/player.data");
             Scanner s = new Scanner(f);
@@ -46,13 +48,7 @@ public class Main {
             for (Item item : save) {
                 p.addItem(item);
             }
-            NumberFormat currency = NumberFormat.getCurrencyInstance();
-            String myCurrency = currency.format(money);
-            System.out.println("User: " + name + " || Money: " + myCurrency + " || Open Count: " + p.getOpenCount() + " || Prestige: " + p.getPrestige());
-
-            Runner runner = new Runner();
-            runner.run(p);
-
+            player = p;
         }
         catch (FileNotFoundException e) {
             Player p = new Player();
@@ -61,9 +57,8 @@ public class Main {
             String name = in.nextLine();
             p.setName(name);
             p.setOpenCount(0);
-            Runner runner = new Runner();
-            runner.run(p);
-            p.save();
+            player = p;
         }
     }
+    public Player getPlayer() { return player; }
 }
