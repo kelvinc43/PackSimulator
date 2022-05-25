@@ -1,8 +1,9 @@
 import java.util.Scanner;
+import java.text.NumberFormat;
 
 public class Runner {
 
-    public void run(Player p) {
+    public void run(Player player) {
         boolean stop = false;
         while (stop != true) {
             System.out.print("\nPlay? ");
@@ -11,24 +12,25 @@ public class Runner {
             System.out.println();
             if (ans.equals("yes")) {
                 try {
+
                     System.out.print("Which pack? ");
                     Scanner input = new Scanner(System.in);
                     int pack = input.nextInt();
-                    p.play(pack);
+                    player.play(pack);
                 }
                 catch (Exception e) {
                     System.out.println("Sorry that command does not exist!");
                 }
             }
             if (ans.equals("1")) {
-                p.play(1);
+                player.play(1);
             }
             if (ans.equals("all")) {
                 try {
                     System.out.print("Which pack? ");
                     Scanner input = new Scanner(System.in);
                     int pack = input.nextInt();
-                    p.spendAll(pack);
+                    player.spendAll(pack);
                 }
                 catch (Exception e) {
                     System.out.println("Sorry that command does not exist!");
@@ -39,47 +41,65 @@ public class Runner {
                     System.out.print("Which pack? ");
                     Scanner input = new Scanner(System.in);
                     int pack = input.nextInt();
-                    p.playTen(pack);
+                    player.playTen(pack);
                 }
                 catch (Exception e) {
                     System.out.println("Sorry that command does not exist!");
                 }
             }
+            if (ans.equals("restart")) {
+                try {
+                    System.out.print("Are you sure? ");
+                    Scanner input = new Scanner(System.in);
+                    String resp = input.nextLine();
+                    resp = resp.toLowerCase();
+                    if (resp.equals("yes")) {
+                        player.restart();
+                        player.save();
+                    }
+                    else System.out.println("Failed");
+                }
+                catch (Exception e) {
+                    System.out.println("Failed");
+                }
+            }
             if (ans.equals("10")) {
-                p.playTen(1);
+                player.playTen(1);
             }
             if (ans.equals("add")) {
-                p.addMoney(999999);
+                player.addMoney(999999);
             }
             if (ans.equals("inv")) {
-                p.showInventory();
+                player.showInventory();
             }
             if (ans.equals("sell")) {
-                p.sellItem();
+                player.sellItem();
             }
             if (ans.equals("sellall")) {
-                p.sellAll();
+                player.sellAll();
             }
             System.out.print(" ~~~~~~~~\n");
             if (ans.equals("prestige")) {
-                p.prestige();
+                player.prestige();
             }
 
             if (ans.equals("rig")) {
                 System.out.print("\nPack? ");
                 Scanner input = new Scanner(System.in);
                 int pack = input.nextInt();
-                p.rig(pack);
+                player.rig(pack);
             }
             if (ans.equals("yessecret")) {
                 System.out.print("\nPack? ");
                 Scanner input = new Scanner(System.in);
                 int pack = input.nextInt();
-                p.playSecret(pack);
+                player.playSecret(pack);
             }
 
-            System.out.println("Money: " + p.getMoney() + "\nOpen Count: " + p.getOpenCount() + "\n ~~~~~~~~~");
-
+            NumberFormat currency = NumberFormat.getCurrencyInstance();
+            String myCurrency = currency.format(player.getMoney());
+            System.out.println("Money: " + myCurrency + "\nOpen Count: " + player.getOpenCount() + "\n ~~~~~~~~~");
+            player.save();
             if (ans.equals("stop")) {
                 stop = true;
             }

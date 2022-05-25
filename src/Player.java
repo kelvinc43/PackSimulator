@@ -56,7 +56,7 @@ public class Player {
         if (money - itemCost >= 0) {
             removeMoney(itemCost);
             System.out.print("You got " + item.getItemName() + "! (" + (item.getRarity() / 10) + "%)");
-            if (rng == 1) { System.out.print("!!!!!!!!!!!!!!!!!!"); }
+            if (item.getRarity() == 1) { System.out.print("!!!!!!!!!!!!!!!!!!"); }
             System.out.println();
             openCount++;
             addItem(item);
@@ -105,6 +105,7 @@ public class Player {
         for (Item item : inventory) {
            System.out.println("Item #" + count + ":");
            System.out.println("Name: " + item.getItemName());
+           double Value = item.getValue() * Math.pow(1.1, prestige);
            System.out.println("Value: " + (item.getValue() * Math.pow(1.1, prestige)));
            System.out.println("----");
            count++;
@@ -181,8 +182,13 @@ public class Player {
     }
 
     public void restart() {
-        File f = new File("src/player.data");
-        f.delete();
+        money = START_MONEY;
+        prestige = 0;
+        openCount = 0;
+        for (int i = 0; i < inventory.size(); i++) {
+            inventory.remove(i);
+            i--;
+        }
     }
 
 

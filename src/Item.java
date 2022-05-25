@@ -5,7 +5,6 @@ public class Item {
     private int itemCost;
     private int value;
     private double rarity;
-
     //Item 1
     private int[] rarityList   = {1,         30,       150,      350,      650,      1000}; // 0.1%, 3%, 12%, 20%, 30%, 35%
     private String[] itemNames = {"Secret1", "test-1", "test-2", "test-3", "test-4", "test-5"};
@@ -19,6 +18,9 @@ public class Item {
     private String[] itemNames3 = {"Win", "???", "Scammed"};
     private int[] valueList3 = {75000, 10000, 500};
 
+    public Item() {
+
+    }
     public Item(int rng, int number) {
         if (number == 1) {
             int index = -1;
@@ -72,7 +74,7 @@ public class Item {
         itemName = name;
         this.value = value;
     }
-
+    
     public String getItemName() {
         return itemName;
     }

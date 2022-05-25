@@ -1,4 +1,7 @@
-add the "Restart" option
-make the money in $x.xx format
+add the "Restart" option - done
+make the money in $x.xx format - done
 check for failures in different inputs
 organize player data/fix load data
+test play the game for any inconsistencies
+Make a different class that allows the player to roll, move the roll() method in Generator to 'Item' Class. Make the current constructor
+and make a new constructor that instantiates the lists.
