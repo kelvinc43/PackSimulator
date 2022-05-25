@@ -3,7 +3,7 @@ import java.util.ArrayList;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.File;
-import java.util.Locale;
+import java.text.NumberFormat;
 import java.util.Scanner;
 
 public class Player {
@@ -54,7 +54,7 @@ public class Player {
 
     public void play(int pack) {
         Item item = new Item(pack);
-        int itemCost = item.getItemCost() * (prestige + 1);
+        int itemCost = item.getItemCost() * ((prestige/2) + 1);
         if (money - itemCost >= 0) {
             removeMoney(itemCost);
             System.out.print("You got " + item.getItemName() + "! (" + (item.getRarity() / 10) + "%)");
@@ -71,10 +71,13 @@ public class Player {
         int loops = 0;
         Item item = new Item(pack);
         int itemCost = item.getItemCost() * (prestige + 1);
-        while (money - itemCost >= 0 && loops <= 50000) {
+        while (money - itemCost >= 0 && loops <= 24999) {
             play(pack);
             loops++;
         }
+        NumberFormat currency = NumberFormat.getCurrencyInstance();
+        String moneySpent = currency.format((item.getItemCost() * loops) * (prestige + 1));
+        System.out.println("Successfully opened " + loops + " packs! (" + moneySpent + ")");
     }
 
     public void playSecret(int pack) {
@@ -100,8 +103,8 @@ public class Player {
         for (Item item : inventory) {
            System.out.println("Item #" + count + ":");
            System.out.println("Name: " + item.getItemName());
-           double Value = item.getValue() * Math.pow(1.1, prestige);
-           System.out.println("Value: " + (item.getValue() * Math.pow(1.1, prestige)));
+           double Value = item.getValue() * Math.pow(1.5, prestige);
+           System.out.println("Value: " + (item.getValue() * Math.pow(1.5, prestige)));
            System.out.println("----");
            count++;
        }
@@ -130,7 +133,11 @@ public class Player {
         }
         try {
             int index = Integer.parseInt(ans) - 1;
-            addMoney(inventory.get(index).getValue() * Math.pow(1.1, prestige));
+            double value = inventory.get(index).getValue() * Math.pow(1.5, prestige);
+            addMoney(value);
+            NumberFormat currency = NumberFormat.getCurrencyInstance();
+            String moneyGained = currency.format(value);
+            System.out.println("Successfully sold " + inventory.get(index).getItemName() + " for " + moneyGained + "!");
             inventory.remove(index);
         }
         catch (Exception e) {
@@ -146,11 +153,17 @@ public class Player {
         try {
             ans = ans.toLowerCase();
             if (ans.equals("yes")) {
+                int total = 0;
                 for (int i = 0; i < inventory.size(); i++) {
-                    addMoney(inventory.get(i).getValue() * Math.pow(1.1, prestige));
+                    double value = inventory.get(i).getValue() * Math.pow(1.5, prestige);
+                    addMoney(value);
+                    total += value;
                     inventory.remove(i);
                     i--;
                 }
+                NumberFormat currency = NumberFormat.getCurrencyInstance();
+                String moneyGained = currency.format(total);
+                System.out.println("Successfully sold all for " + moneyGained + "!");
             }
         }
         catch (Exception e) {
@@ -159,7 +172,7 @@ public class Player {
     }
 
     public void prestige() {
-        double prestigeCost = (PRESTIGE_COST * Math.pow(1.2, prestige));
+        double prestigeCost = (PRESTIGE_COST * Math.pow(1.6, prestige));
         System.out.println("Cost to prestige: " + prestigeCost + ", Are you sure you want to proceed?");
         Scanner in = new Scanner(System.in);
         String ans = in.nextLine();

@@ -11,7 +11,7 @@ public class Item {
 
     private int[] rarityList2   = {1,         334,    1000}; // 0.1%, 33%, 66%
     private String[] itemNames2 = {"Secret2", "left", "right"};
-    private int[] valueList2    = {66666,     425,    75};
+    private int[] valueList2    = {66666,     525,    100};
 
     private int[] rarityList3 = {10, 40, 1000};
     private String[] itemNames3 = {"Win", "???", "Scammed"};

@@ -89,12 +89,6 @@ public class Runner {
                 player.prestige();
             }
 
-            if (ans.equals("rig")) {
-                System.out.print("\nPack? ");
-                Scanner input = new Scanner(System.in);
-                int pack = input.nextInt();
-                player.rig(pack);
-            }
             if (ans.equals("yessecret")) {
                 System.out.print("\nPack? ");
                 Scanner input = new Scanner(System.in);
