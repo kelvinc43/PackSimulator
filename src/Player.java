@@ -31,6 +31,8 @@ public class Player {
         this.name = name;
     }
 
+    public String getName() { return name; }
+
     public double getMoney() {
         return money;
     }
@@ -41,14 +43,12 @@ public class Player {
 
     public void addMoney(double m) { money += m; }
 
-    public String getName() { return name; }
-
-    public void addItem(Item i) { inventory.add(i); }
-
     public int getOpenCount() { return openCount; }
 
     public void setOpenCount(int c) { openCount = c; }
 
+    public void addItem(Item i) { inventory.add(i); }
+    
     public int getPrestige() { return prestige; }
 
     public void play(int pack) {
@@ -83,13 +83,12 @@ public class Player {
     }
 
     public void playSecret(int pack) {
-        int rng = (int) (Math.random() * 1000) + 1;
-        while (rng != 1) {
-            rng = (int) (Math.random() * 1000) + 1;
+        boolean stop = false;
+        while (stop != true) {
             Gacha roll = new Gacha(pack);
             Item item = roll.getItem();
-            System.out.print("You got " + item.getItemName() + "! (" + (item.getRarity() / 10) + "%)");
-            if (rng == 1) { System.out.print("!!!!!!!!!!!!"); }
+            System.out.print("You got a " + item.getItemName() + "! (" + (item.getRarity() / 10) + "%)");
+            if (item.getRarity() == 1) { System.out.print("!!!!!!!!!!!!"); stop = true; }
             System.out.println();
             openCount++;
             addItem(item);
