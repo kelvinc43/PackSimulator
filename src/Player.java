@@ -8,7 +8,6 @@ import java.util.Scanner;
 
 public class Player {
     private ArrayList<Item> inventory = new ArrayList<Item>();
-    private Item item;
     private String name;
     private double money;
     private int openCount;
@@ -53,7 +52,8 @@ public class Player {
     public int getPrestige() { return prestige; }
 
     public void play(int pack) {
-        Item item = new Item(pack);
+        Gacha roll = new Gacha(pack);
+        Item item = roll.getItem();
         int itemCost = item.getItemCost() * ((prestige/2) + 1);
         if (money - itemCost >= 0) {
             removeMoney(itemCost);
@@ -69,14 +69,16 @@ public class Player {
     }
     public void spendAll(int pack) {
         int loops = 0;
-        Item item = new Item(pack);
-        int itemCost = item.getItemCost() * (prestige + 1);
+        Gacha roll = new Gacha(pack);
+        Item item = roll.getItem();
+        int itemCost = item.getItemCost() * ((prestige/2) + 1);
         while (money - itemCost >= 0 && loops <= 24999) {
             play(pack);
             loops++;
         }
         NumberFormat currency = NumberFormat.getCurrencyInstance();
-        String moneySpent = currency.format((item.getItemCost() * loops) * (prestige + 1));
+        double total = itemCost * loops;
+        String moneySpent = currency.format(total);
         System.out.println("Successfully opened " + loops + " packs! (" + moneySpent + ")");
     }
 
@@ -84,7 +86,8 @@ public class Player {
         int rng = (int) (Math.random() * 1000) + 1;
         while (rng != 1) {
             rng = (int) (Math.random() * 1000) + 1;
-            Item item = new Item(pack);
+            Gacha roll = new Gacha(pack);
+            Item item = roll.getItem();
             System.out.print("You got " + item.getItemName() + "! (" + (item.getRarity() / 10) + "%)");
             if (rng == 1) { System.out.print("!!!!!!!!!!!!"); }
             System.out.println();
@@ -133,8 +136,8 @@ public class Player {
         }
         try {
             int index = Integer.parseInt(ans) - 1;
-            double value = inventory.get(index).getValue() * Math.pow(1.5, prestige);
-            addMoney(value);
+            double value = inventory.get(index).getValue();
+            addMoney(value  * Math.pow(1.5, prestige));
             NumberFormat currency = NumberFormat.getCurrencyInstance();
             String moneyGained = currency.format(value);
             System.out.println("Successfully sold " + inventory.get(index).getItemName() + " for " + moneyGained + "!");
@@ -153,7 +156,7 @@ public class Player {
         try {
             ans = ans.toLowerCase();
             if (ans.equals("yes")) {
-                int total = 0;
+                double total = 0;
                 for (int i = 0; i < inventory.size(); i++) {
                     double value = inventory.get(i).getValue() * Math.pow(1.5, prestige);
                     addMoney(value);
