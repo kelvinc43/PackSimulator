@@ -3,11 +3,11 @@ public class Gacha {
     private Item item;
     //Item 1
     private int[] rarityList   = {1,         30,       150,      350,      650,      1000}; // 0.1%, 3%, 12%, 20%, 30%, 35%
-    private String[] itemNames = {"", "", "", "", "", ""};
-    private int[] valueList    = {10000,     200,      90,       45,       25,       15};
+    private String[] itemNames = {"S", "A", "B", "C", "D", "F"};
+    private int[] valueList    = {11111,     250,      100,       55,       25,       15};
 
     private int[] rarityList2   = {1,         334,    1000}; // 0.1%, 33%, 66%
-    private String[] itemNames2 = {"", "", ""};
+    private String[] itemNames2 = {"Middle", "Left", "Right"};
     private int[] valueList2    = {66666,     525,    100};
 
     private int[] rarityList3 = {10, 40, 1000};

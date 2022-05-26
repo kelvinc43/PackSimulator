@@ -54,10 +54,10 @@ public class Player {
     public void play(int pack) {
         Gacha roll = new Gacha(pack);
         Item item = roll.getItem();
-        int itemCost = item.getItemCost() * ((prestige/2) + 1);
+        double itemCost = item.getItemCost() * ((prestige/1.5) + 1);
         if (money - itemCost >= 0) {
             removeMoney(itemCost);
-            System.out.print("You got " + item.getItemName() + "! (" + (item.getRarity() / 10) + "%)");
+            System.out.print("You got a " + item.getItemName() + "! (" + (item.getRarity() / 10) + "%)");
             if (item.getRarity() == 1) { System.out.print("!!!!!!!!!!!!!!!!!!"); }
             System.out.println();
             openCount++;
@@ -71,7 +71,7 @@ public class Player {
         int loops = 0;
         Gacha roll = new Gacha(pack);
         Item item = roll.getItem();
-        int itemCost = item.getItemCost() * ((prestige/2) + 1);
+        double itemCost = item.getItemCost() * ((prestige/1.5) + 1);
         while (money - itemCost >= 0 && loops <= 24999) {
             play(pack);
             loops++;
@@ -106,11 +106,14 @@ public class Player {
         for (Item item : inventory) {
            System.out.println("Item #" + count + ":");
            System.out.println("Name: " + item.getItemName());
-           double Value = item.getValue() * Math.pow(1.5, prestige);
-           System.out.println("Value: " + (item.getValue() * Math.pow(1.5, prestige)));
+           double itemValue = item.getValue() * Math.pow(1.2, prestige);
+           NumberFormat currency = NumberFormat.getCurrencyInstance();
+           String value = currency.format(itemValue);
+           System.out.println("Value: " + value);
            System.out.println("----");
            count++;
        }
+        // Item counter
         for (int a = 0; a < tempInv.size(); a++) {
             int amount = 0;
             String name = tempInv.get(a).getItemName();
@@ -136,8 +139,8 @@ public class Player {
         }
         try {
             int index = Integer.parseInt(ans) - 1;
-            double value = inventory.get(index).getValue();
-            addMoney(value  * Math.pow(1.5, prestige));
+            double value = inventory.get(index).getValue() * Math.pow(1.2, prestige);
+            addMoney(value);
             NumberFormat currency = NumberFormat.getCurrencyInstance();
             String moneyGained = currency.format(value);
             System.out.println("Successfully sold " + inventory.get(index).getItemName() + " for " + moneyGained + "!");
@@ -158,7 +161,7 @@ public class Player {
             if (ans.equals("yes")) {
                 double total = 0;
                 for (int i = 0; i < inventory.size(); i++) {
-                    double value = inventory.get(i).getValue() * Math.pow(1.5, prestige);
+                    double value = inventory.get(i).getValue() * Math.pow(1.2, prestige);
                     addMoney(value);
                     total += value;
                     inventory.remove(i);
@@ -175,19 +178,21 @@ public class Player {
     }
 
     public void prestige() {
-        double prestigeCost = (PRESTIGE_COST * Math.pow(1.6, prestige));
-        System.out.println("Cost to prestige: " + prestigeCost + ", Are you sure you want to proceed?");
+        double prestigeCost = (PRESTIGE_COST * Math.pow(1.75, prestige));
+        NumberFormat currency = NumberFormat.getCurrencyInstance();
+        String cost = currency.format(prestigeCost);
+        System.out.println("Cost to prestige: " + cost + ", Are you sure you want to proceed?");
         Scanner in = new Scanner(System.in);
         String ans = in.nextLine();
         if (ans.equals("yes") && money >= prestigeCost) {
             prestige++;
-            money = START_MONEY * (prestige + 1);
+            money = START_MONEY * ((prestige/1.5) + 1);
             for (int i = 0; i < inventory.size(); i++) {
                 inventory.remove(i);
                 i--;
             }
             System.out.print(" ~~~~~~~~\n");
-            System.out.println("\nPrestige: " + prestige);
+            System.out.println("Prestige: " + prestige);
         }
         else System.out.println("Error");
     }
