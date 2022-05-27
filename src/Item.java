@@ -1,15 +1,13 @@
 public class Item {
 
     private String itemName;
-    private int itemCost;
     private int value;
     private double rarity;
 
-    public Item(String name, int value, int rarity, int itemCost) {
+    public Item(String name, int value, int rarity) {
         itemName = name;
         this.value = value;
         this.rarity = rarity;
-        this.itemCost = itemCost;
     }
 
     public Item(String name, int value) {
@@ -19,10 +17,6 @@ public class Item {
     
     public String getItemName() {
         return itemName;
-    }
-
-    public int getItemCost() {
-        return itemCost;
     }
 
     public int getValue() {

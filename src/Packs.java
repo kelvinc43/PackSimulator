@@ -1,15 +1,19 @@
 public class Packs {
 
     private Item item;
-    //Item 1
+    private int packCost;
+
+    //Pack 1
     private int[] rarityList   = {1,         30,       150,      350,      650,      1000}; // 0.1%, 3%, 12%, 20%, 30%, 35%
     private String[] itemNames = {"S", "A", "B", "C", "D", "F"};
     private int[] valueList    = {11111,     250,      100,       55,       25,       15};
 
+    //Pack 2
     private int[] rarityList2   = {1,         334,    1000}; // 0.1%, 33%, 66%
     private String[] itemNames2 = {"Middle", "Left", "Right"};
     private int[] valueList2    = {66666,     525,    100};
 
+    //Pack 3
     private int[] rarityList3 = {10, 40, 1000};
     private String[] itemNames3 = {"Win", "???", "Garbage"};
     private int[] valueList3 = {75000, 10000, 500};
@@ -31,7 +35,7 @@ public class Packs {
             }
             itemName = itemNames[index];
             value = valueList[index];
-            itemCost = 25;
+            packCost = 25;
             if (index >= 1) {
                 rarity = rarityList[index] - rarityList[index - 1];
             } else rarity = rarityList[index];
@@ -46,7 +50,7 @@ public class Packs {
             }
             itemName = itemNames2[index];
             value = valueList2[index];
-            itemCost = 260;
+            packCost = 260;
             if (index >= 1) {
                 rarity = rarityList2[index] - rarityList2[index - 1];
             } else rarity = rarityList2[index];
@@ -61,17 +65,20 @@ public class Packs {
             }
             itemName = itemNames3[index];
             value = valueList3[index];
-            itemCost = 1750;
+            packCost = 1750;
             if (index >= 1) {
                 rarity = rarityList3[index] - rarityList3[index - 1];
             } else rarity = rarityList3[index];
         }
-        item = new Item(itemName, value, rarity, itemCost);
+        item = new Item(itemName, value, rarity);
         System.out.println("You got a " + item.getItemName() + "! (" + (item.getRarity() / 10) + "%)");
         if (item.getRarity() == 1) { System.out.print("!!!!!!!!!!!!!!!!!!\n"); }
     }
 
     public Item getItem() {
         return item;
+    }
+    public int getPackCost() {
+        return packCost;
     }
 }

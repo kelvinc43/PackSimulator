@@ -53,7 +53,7 @@ public class Player {
     public void play(int pack) {
         Packs roll = new Packs(pack);
         Item item = roll.getItem();
-        double itemCost = item.getItemCost() * ((prestige/1.5) + 1);
+        double itemCost = roll.getPackCost() * ((prestige/1.5) + 1);
         if (money - itemCost >= 0) {
             removeMoney(itemCost);
             openCount++;
@@ -68,7 +68,7 @@ public class Player {
         int loops = 0;
         Packs roll = new Packs(pack);
         Item item = roll.getItem();
-        double itemCost = item.getItemCost() * ((prestige/1.5) + 1);
+        double itemCost = roll.getPackCost() * ((prestige/1.5) + 1);
         while (money - itemCost >= 0 && loops <= 24999) {
             play(pack);
             loops++;
