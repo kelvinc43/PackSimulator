@@ -1,4 +1,3 @@
-import java.awt.desktop.SystemSleepEvent;
 import java.util.ArrayList;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -48,18 +47,15 @@ public class Player {
     public void setOpenCount(int c) { openCount = c; }
 
     public void addItem(Item i) { inventory.add(i); }
-    
+
     public int getPrestige() { return prestige; }
 
     public void play(int pack) {
-        Gacha roll = new Gacha(pack);
+        Packs roll = new Packs(pack);
         Item item = roll.getItem();
         double itemCost = item.getItemCost() * ((prestige/1.5) + 1);
         if (money - itemCost >= 0) {
             removeMoney(itemCost);
-            System.out.print("You got a " + item.getItemName() + "! (" + (item.getRarity() / 10) + "%)");
-            if (item.getRarity() == 1) { System.out.print("!!!!!!!!!!!!!!!!!!"); }
-            System.out.println();
             openCount++;
             addItem(item);
         }
@@ -67,9 +63,10 @@ public class Player {
             System.out.println("Sorry! You do not have enough money to buy this! You can either sell your items or restart");
         }
     }
+
     public void spendAll(int pack) {
         int loops = 0;
-        Gacha roll = new Gacha(pack);
+        Packs roll = new Packs(pack);
         Item item = roll.getItem();
         double itemCost = item.getItemCost() * ((prestige/1.5) + 1);
         while (money - itemCost >= 0 && loops <= 24999) {
@@ -85,20 +82,20 @@ public class Player {
     public void playSecret(int pack) {
         boolean stop = false;
         while (stop != true) {
-            Gacha roll = new Gacha(pack);
+            Packs roll = new Packs(pack);
             Item item = roll.getItem();
-            System.out.print("You got a " + item.getItemName() + "! (" + (item.getRarity() / 10) + "%)");
-            if (item.getRarity() == 1) { System.out.print("!!!!!!!!!!!!"); stop = true; }
-            System.out.println();
+            if (item.getRarity() == 1) { stop = true; }
             openCount++;
             addItem(item);
         }
     }
+
     public void playTen(int ans) {
         for (int i = 0; i < 10; i++) {
             play(ans);
         }
     }
+
     public void showInventory() {
         ArrayList<Item> tempInv = new ArrayList<>(inventory);
         int count = 1;
@@ -128,6 +125,7 @@ public class Player {
             System.out.println(name + ": x" + amount);
         }
     }
+
     public void sellItem() {
         showInventory();
         System.out.println("Which item (#) do you want to sell?");

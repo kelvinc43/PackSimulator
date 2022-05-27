@@ -1,6 +1,6 @@
 - add the "Restart" option - done
 - make the money in $x.xx format - done
-- Make Runner class the main class - done
+- Make Gacha class the main class - done
 - Make a different class that allows the player to roll, move the roll() method in Generator to 'Item' Class. Make the current constructor
 and make a new constructor that instantiates the lists. - done
 

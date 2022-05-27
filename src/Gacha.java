@@ -1,75 +1,108 @@
+import java.util.Scanner;
+import java.text.NumberFormat;
+
 public class Gacha {
+    public static void main(String[] args) {
+        DataHandler data = new DataHandler();
+        data.dataHandle();
+        Player player = data.getPlayer();
 
-    private Item item;
-    //Item 1
-    private int[] rarityList   = {1,         30,       150,      350,      650,      1000}; // 0.1%, 3%, 12%, 20%, 30%, 35%
-    private String[] itemNames = {"S", "A", "B", "C", "D", "F"};
-    private int[] valueList    = {11111,     250,      100,       55,       25,       15};
+        NumberFormat currency = NumberFormat.getCurrencyInstance();
+        String myCurrency = currency.format(player.getMoney());
+        System.out.println("User: " + player.getName() + " || Money: " + myCurrency + " || Open Count: " + player.getOpenCount() + " || Prestige: " + player.getPrestige());
 
-    private int[] rarityList2   = {1,         334,    1000}; // 0.1%, 33%, 66%
-    private String[] itemNames2 = {"Middle", "Left", "Right"};
-    private int[] valueList2    = {66666,     525,    100};
-
-    private int[] rarityList3 = {10, 40, 1000};
-    private String[] itemNames3 = {"Win", "???", "Garbage"};
-    private int[] valueList3 = {75000, 10000, 500};
-
-    public Gacha(int number) {
-        String itemName = "";
-        int value = 0;
-        int itemCost = 0;
-        int rarity = 0;
-
-        int rng = (int) (Math.random() * 1000) + 1;
-        if (number == 1) {
-            int index = -1;
-            for (int i = 0; i < itemNames.length; i++) {
-                if (rng <= rarityList[i]) {
-                    index = i;
-                    break;
+        boolean stop = false;
+        while (stop != true) {
+            System.out.print("\nPlay? ");
+            Scanner in = new Scanner(System.in);
+            String ans = in.nextLine();
+            System.out.println();
+            if (ans.equals("yes")) {
+                try {
+                    System.out.print("Which pack? ");
+                    Scanner input = new Scanner(System.in);
+                    int pack = input.nextInt();
+                    player.play(pack);
+                }
+                catch (Exception e) {
+                    System.out.println("Sorry that command does not exist!");
                 }
             }
-            itemName = itemNames[index];
-            value = valueList[index];
-            itemCost = 25;
-            if (index >= 1) {
-                rarity = rarityList[index] - rarityList[index - 1];
-            } else rarity = rarityList[index];
-        }
-        if (number == 2) {
-            int index = -1;
-            for (int i = 0; i < itemNames2.length; i++) {
-                if (rng <= rarityList2[i]) {
-                    index = i;
-                    break;
+            if (ans.equals("1")) {
+                player.play(1);
+            }
+            if (ans.equals("all")) {
+                try {
+                    System.out.print("Which pack? ");
+                    Scanner input = new Scanner(System.in);
+                    int pack = input.nextInt();
+                    player.spendAll(pack);
+                }
+                catch (Exception e) {
+                    System.out.println("Sorry that command does not exist!");
                 }
             }
-            itemName = itemNames2[index];
-            value = valueList2[index];
-            itemCost = 260;
-            if (index >= 1) {
-                rarity = rarityList2[index] - rarityList2[index - 1];
-            } else rarity = rarityList2[index];
-        }
-        if (number == 3) {
-            int index = -1;
-            for (int i = 0; i < itemNames3.length; i++) {
-                if (rng <= rarityList3[i]) {
-                    index = i;
-                    break;
+            if (ans.equals("yes10")) {
+                try {
+                    System.out.print("Which pack? ");
+                    Scanner input = new Scanner(System.in);
+                    int pack = input.nextInt();
+                    player.playTen(pack);
+                }
+                catch (Exception e) {
+                    System.out.println("Sorry that command does not exist!");
                 }
             }
-            itemName = itemNames3[index];
-            value = valueList3[index];
-            itemCost = 1750;
-            if (index >= 1) {
-                rarity = rarityList3[index] - rarityList3[index - 1];
-            } else rarity = rarityList3[index];
-        }
-        item = new Item(itemName, value, rarity, itemCost);
-    }
+            if (ans.equals("restart")) {
+                try {
+                    System.out.print("Are you sure? ");
+                    Scanner input = new Scanner(System.in);
+                    String resp = input.nextLine();
+                    resp = resp.toLowerCase();
+                    if (resp.equals("yes")) {
+                        player.restart();
+                        player.save();
+                    }
+                    else System.out.println("Failed");
+                }
+                catch (Exception e) {
+                    System.out.println("Failed");
+                }
+            }
+            if (ans.equals("10")) {
+                player.playTen(1);
+            }
+            if (ans.equals("add")) {
+                player.addMoney(999999);
+            }
+            if (ans.equals("inv")) {
+                player.showInventory();
+            }
+            if (ans.equals("sell")) {
+                player.sellItem();
+            }
+            if (ans.equals("sellall")) {
+                player.sellAll();
+            }
+            System.out.print(" ~~~~~~~~\n");
+            if (ans.equals("prestige")) {
+                player.prestige();
+            }
 
-    public Item getItem() {
-        return item;
+            if (ans.equals("yessecret")) {
+                System.out.print("\nPack? ");
+                Scanner input = new Scanner(System.in);
+                int pack = input.nextInt();
+                player.playSecret(pack);
+            }
+
+            NumberFormat currencyAfter = NumberFormat.getCurrencyInstance();
+            String myCurrencyAfter = currencyAfter.format(player.getMoney());
+            System.out.println("Money: " + myCurrencyAfter + "\nOpen Count: " + player.getOpenCount() + "\n ~~~~~~~~~");
+            player.save();
+            if (ans.equals("stop")) {
+                stop = true;
+            }
+        }
     }
 }
