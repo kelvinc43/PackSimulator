@@ -55,6 +55,8 @@ public class Player {
         Item item = roll.getItem();
         double itemCost = roll.getPackCost() * ((prestige/1.5) + 1);
         if (money - itemCost >= 0) {
+            System.out.println("You got a " + item.getItemName() + "! (" + (item.getRarity() / 10) + "%)");
+            if (item.getRarity() == 1) { System.out.print("!!!!!!!!!!!!!!!!!!\n"); }
             removeMoney(itemCost);
             openCount++;
             addItem(item);
@@ -67,7 +69,6 @@ public class Player {
     public void spendAll(int pack) {
         int loops = 0;
         Packs roll = new Packs(pack);
-        Item item = roll.getItem();
         double itemCost = roll.getPackCost() * ((prestige/1.5) + 1);
         while (money - itemCost >= 0 && loops <= 24999) {
             play(pack);
@@ -207,7 +208,7 @@ public class Player {
     public void save() {
         try {
             File f = new File("src/player.data");
-            f.createNewFile(); // this method will create the file if it does not exist, if it does exist, it does nothing
+            f.createNewFile();
             FileWriter fw = new FileWriter("src/player.data");
             fw.write(name + "\n");
             fw.write(Double.toString(money) + "\n");

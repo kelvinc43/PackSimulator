@@ -3,17 +3,17 @@ public class Packs {
     private Item item;
     private int packCost;
 
-    //Pack 1
+    //Pack 1 - 25
     private int[] rarityList   = {1,         30,       150,      350,      650,      1000}; // 0.1%, 3%, 12%, 20%, 30%, 35%
-    private String[] itemNames = {"S", "A", "B", "C", "D", "F"};
+    private String[] itemNames = {"S",       "A", "B", "C", "D", "F"};
     private int[] valueList    = {11111,     250,      100,       55,       25,       15};
 
-    //Pack 2
+    //Pack 2 - 260
     private int[] rarityList2   = {1,         334,    1000}; // 0.1%, 33%, 66%
     private String[] itemNames2 = {"Middle", "Left", "Right"};
     private int[] valueList2    = {66666,     525,    100};
 
-    //Pack 3
+    //Pack 3 - 1750
     private int[] rarityList3 = {10, 40, 1000};
     private String[] itemNames3 = {"Win", "???", "Garbage"};
     private int[] valueList3 = {75000, 10000, 500};
@@ -21,7 +21,6 @@ public class Packs {
     public Packs(int number) {
         String itemName = "";
         int value = 0;
-        int itemCost = 0;
         int rarity = 0;
 
         int rng = (int) (Math.random() * 1000) + 1;
@@ -71,8 +70,6 @@ public class Packs {
             } else rarity = rarityList3[index];
         }
         item = new Item(itemName, value, rarity);
-        System.out.println("You got a " + item.getItemName() + "! (" + (item.getRarity() / 10) + "%)");
-        if (item.getRarity() == 1) { System.out.print("!!!!!!!!!!!!!!!!!!\n"); }
     }
 
     public Item getItem() {
