@@ -6,11 +6,12 @@ import java.text.NumberFormat;
 import java.util.Scanner;
 
 public class Player {
-    private ArrayList<Item> inventory = new ArrayList<Item>();
     private String name;
     private double money;
     private int openCount;
     private int prestige;
+    private ArrayList<Item> inventory = new ArrayList<Item>();
+
     private final int PRESTIGE_COST = 2500;
     private final double START_MONEY = 100;
 
@@ -197,7 +198,7 @@ public class Player {
 
     public void restart() {
         money = START_MONEY;
-        prestige = 0;
+        //prestige = 0;
         openCount = 0;
         for (int i = 0; i < inventory.size(); i++) {
             inventory.remove(i);
@@ -212,12 +213,12 @@ public class Player {
             FileWriter fw = new FileWriter("src/player.data");
             fw.write(name + "\n");
             fw.write(Double.toString(money) + "\n");
-            fw.write(Integer.toString(getOpenCount()) + "\n");
-            fw.write(Integer.toString(getPrestige()) + "\n");
+            fw.write(Integer.toString(openCount) + "\n");
+            fw.write(Integer.toString(prestige) + "\n");
             if (inventory != null) {
-                for (int i = 0; i < inventory.size(); i++) {
-                    fw.write(inventory.get(i).getItemName() + "\n");
-                    fw.write(inventory.get(i).getValue() + "\n");
+                for (Item item : inventory) {
+                    fw.write(item.getItemName() + "\n");
+                    fw.write(item.getValue() + "\n");
                 }
             }
             fw.close();

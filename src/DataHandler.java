@@ -17,7 +17,7 @@ public class DataHandler {
             double money = 0;
             int prestige = 0;
             String itemName = "";
-            int value = 0;
+            int itemValue = 0;
             ArrayList<Item> save = new ArrayList<Item>();
             while (s.hasNextLine()) {
                 String data = s.nextLine();
@@ -37,8 +37,8 @@ public class DataHandler {
                     itemName = data;
                 }
                 if (line > 4 && line % 2 == 0) {
-                    value = Integer.parseInt(data);
-                    Item temp = new Item(itemName, value);
+                    itemValue = Integer.parseInt(data);
+                    Item temp = new Item(itemName, itemValue);
                     save.add(temp);
                 }
                 line++;

@@ -6,17 +6,17 @@ public class Packs {
     //Pack 1 - 25
     private int[] rarityList   = {1,         30,       150,      350,      650,      1000}; // 0.1%, 3%, 12%, 20%, 30%, 35%
     private String[] itemNames = {"S",       "A", "B", "C", "D", "F"};
-    private int[] valueList    = {11111,     250,      100,       55,       25,       15};
+    private int[] valueList    = {11111,     250,      100,       55,       35,       20};
 
     //Pack 2 - 260
     private int[] rarityList2   = {1,         334,    1000}; // 0.1%, 33%, 66%
     private String[] itemNames2 = {"Middle", "Left", "Right"};
-    private int[] valueList2    = {66666,     525,    100};
+    private int[] valueList2    = {66666,     525,    175};
 
-    //Pack 3 - 1750
-    private int[] rarityList3 = {10, 40, 1000};
+    //Pack 3 - 2750
+    private int[] rarityList3 = {10, 40, 1000}; // 1%, 3%, 96%
     private String[] itemNames3 = {"Win", "???", "Garbage"};
-    private int[] valueList3 = {75000, 10000, 500};
+    private int[] valueList3 = {175000, 30000, 1000};
 
     public Packs(int number) {
         String itemName = "";
@@ -64,7 +64,7 @@ public class Packs {
             }
             itemName = itemNames3[index];
             value = valueList3[index];
-            packCost = 1750;
+            packCost = 2750;
             if (index >= 1) {
                 rarity = rarityList3[index] - rarityList3[index - 1];
             } else rarity = rarityList3[index];
@@ -75,6 +75,7 @@ public class Packs {
     public Item getItem() {
         return item;
     }
+
     public int getPackCost() {
         return packCost;
     }
