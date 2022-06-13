@@ -1,7 +1,7 @@
 import java.util.Scanner;
 import java.text.NumberFormat;
 
-public class Gacha {
+public class PackSimulator {
     public static void main(String[] args) {
         DataHandler data = new DataHandler();
         data.dataHandle();
@@ -9,23 +9,25 @@ public class Gacha {
 
         NumberFormat currency = NumberFormat.getCurrencyInstance();
         String myCurrency = currency.format(player.getMoney());
-        System.out.println("User: " + player.getName() + " || Money: " + myCurrency + " || Open Count: " + player.getOpenCount() + " || Prestige: " + player.getPrestige());
+        System.out.println("User: " + player.getName() + " || Money: " + myCurrency + " || Open Count: " + player.getOpenCount());
 
+        Packs packDisplay = new Packs();
         boolean stop = false;
         while (stop != true) {
-            System.out.print("\nPlay? ");
+            System.out.print("\nPlay? [yes], [all], [inv], [sell], [sellall], or [quit] ");
             Scanner in = new Scanner(System.in);
             String ans = in.nextLine();
             System.out.println();
             if (ans.equals("yes")) {
                 try {
-                    System.out.print("Which pack? ");
+                    packDisplay.displayPackInfo();
+                    System.out.println("Which pack? ");
                     Scanner input = new Scanner(System.in);
                     int pack = input.nextInt();
                     player.play(pack);
                 }
                 catch (Exception e) {
-                    System.out.println("Sorry that command does not exist!");
+                    System.out.println("Sorry that pack does not exist!");
                 }
             }
             if (ans.equals("1")) {
@@ -33,6 +35,7 @@ public class Gacha {
             }
             if (ans.equals("all")) {
                 try {
+                    packDisplay.displayPackInfo();
                     System.out.print("Which pack? ");
                     Scanner input = new Scanner(System.in);
                     int pack = input.nextInt();
@@ -85,9 +88,6 @@ public class Gacha {
                 player.sellAll();
             }
             System.out.print(" ~~~~~~~~\n");
-            if (ans.equals("prestige")) {
-                player.prestige();
-            }
 
             if (ans.equals("yessecret")) {
                 System.out.print("\nPack? ");
@@ -100,8 +100,9 @@ public class Gacha {
             String myCurrencyAfter = currencyAfter.format(player.getMoney());
             System.out.println("Money: " + myCurrencyAfter + "\nOpen Count: " + player.getOpenCount() + "\n ~~~~~~~~~");
             player.save();
-            if (ans.equals("stop")) {
+            if (ans.equals("quit")) {
                 stop = true;
+                System.out.println("Saving...");
             }
         }
     }

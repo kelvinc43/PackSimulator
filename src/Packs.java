@@ -3,20 +3,27 @@ public class Packs {
     private Item item;
     private int packCost;
 
-    //Pack 1 - 25
-    private int[] rarityList   = {1,         30,       150,      350,      650,      1000}; // 0.1%, 3%, 12%, 20%, 30%, 35%
-    private String[] itemNames = {"S",       "A", "B", "C", "D", "F"};
-    private int[] valueList    = {11111,     250,      100,       55,       35,       20};
-
-    //Pack 2 - 260
+    //Pack 1
+    private int[] rarityList = {1, 30, 150, 350, 650, 1000};; // 0.1%, 3%, 12%, 20%, 30%, 35%
+    private String[] itemNames = {"Mewthree",  "Lizard", "Blast", "Pika", "Betapod", "Seedle"};
+    private int[] valueList    = {11111, 250, 100, 55, 35, 20};
+    private int packCost1; // 25
+    //Pack 2
     private int[] rarityList2   = {1,         334,    1000}; // 0.1%, 33%, 66%
-    private String[] itemNames2 = {"Middle", "Left", "Right"};
-    private int[] valueList2    = {66666,     525,    175};
-
-    //Pack 3 - 2750
+    private String[] itemNames2 = {"Payquaza", "Snorebad", "Centipede"};
+    private int[] valueList2    = {66666,     525,    125};
+    private int packCost2; // 260
+    //Pack 3
     private int[] rarityList3 = {10, 40, 1000}; // 1%, 3%, 96%
-    private String[] itemNames3 = {"Win", "???", "Garbage"};
+    private String[] itemNames3 = {"You win the game", "???", "Scammed"};
     private int[] valueList3 = {175000, 30000, 1000};
+    private int packCost3; // 2750
+
+    public Packs() {
+        packCost1 = 25;
+        packCost2 = 260;
+        packCost3 = 2750;
+    }
 
     public Packs(int number) {
         String itemName = "";
@@ -72,6 +79,25 @@ public class Packs {
         item = new Item(itemName, value, rarity);
     }
 
+    public void displayPackInfo() {
+        System.out.println("Pack [1]: " + packCost1);
+        for (int i = 0; i < itemNames.length - 1; i++) {
+            System.out.print(itemNames[i] + ", ");
+        }
+        System.out.println(itemNames[itemNames.length - 1] + "\n");
+
+        System.out.println("Pack [2]: " + packCost2);
+        for (int i = 0; i < itemNames2.length - 1; i++) {
+            System.out.print(itemNames2[i] + ", ");
+        }
+        System.out.println(itemNames2[itemNames2.length - 1] + "\n");
+
+        System.out.println("Pack [3]: " + packCost3);
+        for (int i = 0; i < itemNames3.length - 1; i++) {
+            System.out.print(itemNames3[i] + ", ");
+        }
+        System.out.println(itemNames3[itemNames3.length - 1] + "\n");
+    }
     public Item getItem() {
         return item;
     }
