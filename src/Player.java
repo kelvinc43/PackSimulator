@@ -86,7 +86,11 @@ public class Player {
         while (stop != true) {
             Packs roll = new Packs(pack);
             Item item = roll.getItem();
-            if (item.getRarity() == 1) { stop = true; }
+            System.out.println("You got a " + item.getItemName() + "! (" + (item.getRarity() / 10) + "%)");
+            if (item.getRarity() == 1) {
+                stop = true;
+                System.out.print("!!!!!!!!!!!!!!!!!!\n");
+            }
             openCount++;
             addItem(item);
         }

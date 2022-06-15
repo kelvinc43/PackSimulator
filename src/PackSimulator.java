@@ -9,12 +9,12 @@ public class PackSimulator {
 
         NumberFormat currency = NumberFormat.getCurrencyInstance();
         String myCurrency = currency.format(player.getMoney());
-        System.out.println("User: " + player.getName() + " || Money: " + myCurrency + " || Open Count: " + player.getOpenCount());
+        System.out.println("User: " + player.getName() + " || Money: " + myCurrency + " || Open Count: " + player.getOpenCount() + " || Prestige: " + player.getPrestige());
 
         Packs packDisplay = new Packs();
         boolean stop = false;
         while (stop != true) {
-            System.out.print("\nPlay? [yes], [all], [inv], [sell], [sellall], or [quit] ");
+            System.out.print("\nPlay? [yes], [all], [inv], [sell], [sellall], [prestige], or [quit] ");
             Scanner in = new Scanner(System.in);
             String ans = in.nextLine();
             System.out.println();
@@ -30,9 +30,6 @@ public class PackSimulator {
                     System.out.println("Sorry that pack does not exist!");
                 }
             }
-            if (ans.equals("1")) {
-                player.play(1);
-            }
             if (ans.equals("all")) {
                 try {
                     packDisplay.displayPackInfo();
@@ -40,17 +37,6 @@ public class PackSimulator {
                     Scanner input = new Scanner(System.in);
                     int pack = input.nextInt();
                     player.spendAll(pack);
-                }
-                catch (Exception e) {
-                    System.out.println("Sorry that command does not exist!");
-                }
-            }
-            if (ans.equals("yes10")) {
-                try {
-                    System.out.print("Which pack? ");
-                    Scanner input = new Scanner(System.in);
-                    int pack = input.nextInt();
-                    player.playTen(pack);
                 }
                 catch (Exception e) {
                     System.out.println("Sorry that command does not exist!");
@@ -88,6 +74,9 @@ public class PackSimulator {
                 player.sellAll();
             }
             System.out.print(" ~~~~~~~~\n");
+            if (ans.equals("prestige")) {
+                player.prestige();
+            }
 
             if (ans.equals("yessecret")) {
                 System.out.print("\nPack? ");
